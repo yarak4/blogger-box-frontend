@@ -1,0 +1,58 @@
+<div class="container mt-4">
+    <form [formGroup]="postForm" (ngSubmit)="onSubmit()" autocomplete="off">
+
+      <div class="mb-3">
+        <label class="form-label">Title:</label>
+        <input type="text" class="form-control"
+          formControlName="title"
+          [class.is-invalid]="title?.invalid && title?.touched"
+          [class.is-valid]="title?.valid && title?.touched" />
+        @if (title?.invalid && title?.touched) {
+          <div class="invalid-feedback text-danger">
+            @if (title?.errors?.['required']) { <div>Title is required</div> }
+            @if (title?.errors?.['minlength']) { <div>Title must be at least 5 characters</div>
+   }
+            @if (title?.errors?.['maxlength']) { <div>Title should not exceed 150
+  characters</div> }
+          </div>
+        }
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Category:</label>
+        <select class="form-select" formControlName="categoryId"
+          [class.is-invalid]="categoryId?.invalid && categoryId?.touched"
+          [class.is-valid]="categoryId?.valid && categoryId?.touched">
+          <option value="" disabled>Select a category</option>
+          @for (category of categories; track category.id) {
+            <option [value]="category.id">{{ category.name }}</option>
+          }
+        </select>
+        @if (categoryId?.invalid && categoryId?.touched) {
+          <div class="invalid-feedback text-danger">Category is required</div>
+        }
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Content:</label>
+        <textarea class="form-control" rows="5" formControlName="content"
+          [class.is-invalid]="content?.invalid && content?.touched"
+          [class.is-valid]="content?.valid && content?.touched">
+        </textarea>
+        @if (content?.invalid && content?.touched) {
+          <div class="invalid-feedback text-danger">
+            @if (content?.errors?.['required']) { <div>Content is required</div> }
+            @if (content?.errors?.['maxlength']) { <div>Post content should not exceed 2500
+  characters</div> }
+          </div>
+        }
+      </div>
+
+      <div class="d-flex justify-content-end gap-2">
+        <button type="button" class="btn btn-outline-danger" 
+  (click)="onClose()">Close</button>
+        <button type="submit" class="btn btn-success">Post message</button>
+      </div>
+
+    </form>
+  </div>
